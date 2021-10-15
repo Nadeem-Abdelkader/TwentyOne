@@ -35,6 +35,6 @@ retCardNoLead cinhand
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
 playCard card pts info id memo hand
-    | isNothing card = (Bid 10, "") 
+    | (head $ pts) > 21 = (Bid 10, "") 
     | length hand == 2 = (DoubleDown 20,"")
     | otherwise  = (Stand, "") 

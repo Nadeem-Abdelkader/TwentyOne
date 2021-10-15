@@ -8,7 +8,6 @@ import           Cards              -- Finally, the generic card type(s)
 
 import           TwentyOne.Types    -- Here you will find types used in the game of TwentyOne
 import           TwentyOne.Rules    -- Rules of the game
-import Data.Maybe (isNothing)
 
 -- You can add more imports if you need them
 notHeartCards :: [Card] -> [Card]
@@ -34,7 +33,4 @@ retCardNoLead cinhand
 
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
-playCard card pts info id memo hand
-    | isNothing card = (Bid 10, "") 
-    | length hand == 2 = (DoubleDown 20,"")
-    | otherwise  = (Stand, "") 
+playCard card pts info id memo hand = (Bid 10, "memo") 

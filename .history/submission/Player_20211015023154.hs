@@ -36,5 +36,5 @@ retCardNoLead cinhand
 playCard :: PlayFunc
 playCard card pts info id memo hand
     | isNothing card = (Bid 10, "") 
-    | length hand == 2 = (DoubleDown 20,"")
+    | length hand == 2 = (DoubleDown 2,"")
     | otherwise  = (Stand, "") 
