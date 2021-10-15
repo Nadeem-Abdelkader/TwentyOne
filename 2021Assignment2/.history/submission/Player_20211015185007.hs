@@ -8,16 +8,11 @@ import           Cards              -- Finally, the generic card type(s)
 
 import           TwentyOne.Types    -- Here you will find types used in the game of TwentyOne
 import           TwentyOne.Rules    -- Rules of the game
-import Data.Maybe
 
 -- You can add more imports if you need them
 
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
-playCard dcrd _ _ _ _ _
-    | isNothing dcrd = (Bid 100, "")
-    | otherwise = (Hit, "")
-
-
--- | not (isCombo phand) = (Hit, "")
--- | not (isBust (handValue phand)) = (Hit, "")
+playCard dcrd ppts pinfo pid pmemo phand
+    | dcrd == Nothing = (Bid 10, "")
+    | otherwise = (Insurance 10, "")

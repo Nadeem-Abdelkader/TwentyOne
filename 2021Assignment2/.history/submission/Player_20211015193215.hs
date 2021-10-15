@@ -14,7 +14,7 @@ import Data.Maybe
 
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
-playCard dcrd _ _ _ _ _
+playCard dcrd ppts pinfo pid pmemo phand
     | isNothing dcrd = (Bid 100, "")
     | otherwise = (Hit, "")
 
