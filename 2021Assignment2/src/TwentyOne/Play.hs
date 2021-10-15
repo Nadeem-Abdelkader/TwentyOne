@@ -60,9 +60,9 @@ updatePoints :: Int -> GamePoints -> HandPoints -> GamePoints
 updatePoints count (GamePoints p c) h
     | (not . isBankrupt) c && getPoints h == 0 = GamePoints p (Bankrupt count)
     | otherwise = case c of
-    Rich 0 -> GamePoints p (Bankrupt count)
-    Rich _ -> GamePoints p (Rich $ getPoints h)
-    b      -> GamePoints p b
+        Rich 0 -> GamePoints p (Bankrupt count)
+        Rich _ -> GamePoints p (Rich $ getPoints h)
+        b      -> GamePoints p b
 
 
 -- | Shuffle a deck then start the game, keep track of the score.
@@ -82,8 +82,8 @@ playRound gp@(GameResult previous results players shuffledDeck) = do
                               (sortOn getId results)
                               (sortOn getId hp)
 
-        newGP'       = sortAlong getId (getId <$> results) newGP
-       
+    -- Restore ordering
+    let newGP' = sortAlong getId (getId <$> results) newGP
 
     return $ GameResult (HandResult tricked hp : previous)
                         newGP'
@@ -141,7 +141,7 @@ combinePoints handPoints newGP = zipWith (+) finalPoints sortedGP
     finalPoints = sum <$> (getPoints <$$> groups)
     sortedGP    = getPoints <$> sortOn getId newGP
 
-evaluatePlays :: [PlayNode] -> Stock -> Hand -> IO ([HandPoints], PlayNode)
+evaluatePlays :: Trick -> Stock -> Hand -> IO ([HandPoints], PlayNode)
 evaluatePlays tricked stock dealerCards = do
     -- Get only the player hands
     let playerPlays  = filter (not . isInsurance . act) (nodeValue <$> tricked)
@@ -252,7 +252,7 @@ playAction
     :: Maybe Card
     -> PlayerHand
     -> [GamePoints]
-    -> [PlayNode]
+    -> Trick
     -> Trick
     -> EitherIO GameError (Action, String)
 playAction upCard hand scores prev current = do
@@ -260,7 +260,7 @@ playAction upCard hand scores prev current = do
 
     -- Process information for player
     let playerPoints = gamePointsToPlayerPoints <$> scores
-        infos        = nodeToInfo <$> combineLatest prev current
+        infos        = combineWith (playToInfo . nodeValue) current prev
         userMemory   = (firstJust `on` getMemory pid) current prev
 
     -- Execute user function
@@ -311,7 +311,6 @@ playCards upCard scores stock prev current hand sid = do
     -- What to do next
     let nextPlayCard s' st' t' ph' i' =
             playCards upCard s' st' prev t' (PlayerHand (owner hand) ph') i'
-
         continuePlaying = nextPlayCard newScores stocked newCurrent newCards
 
     -- Auxiliary function for pattern matching to determine recursion
