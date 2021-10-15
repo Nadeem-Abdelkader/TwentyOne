@@ -15,17 +15,17 @@ import Data.Maybe
 getMayBeValue :: Maybe Card  -> Card 
 getMayBeValue x =
     case x of
-          Nothing -> Card Heart Five 
+          Nothing -> 0
           Just val -> val
 
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
 playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     | isNothing dealerUpCard = (Bid 100, "")
-    -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
+    | getRank (getMayBeValue dealerUpCard) == A  = (Insurance 50, "")
     | handCalc myHand < 21 = (Hit, "")
     | handCalc myHand > 21 = (Split 100, "")
-    | handCalc myHand == 21 = (Stand , "")
+    | handCalc myHand == 21 = (Hit , "")
     | length myHand == 2 = (DoubleDown 100, "")
     -- | = (Hit, "")
     -- | = (Stand, "")

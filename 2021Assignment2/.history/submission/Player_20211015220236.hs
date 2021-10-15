@@ -22,10 +22,10 @@ getMayBeValue x =
 playCard :: PlayFunc
 playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     | isNothing dealerUpCard = (Bid 100, "")
-    -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
+    | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
     | handCalc myHand < 21 = (Hit, "")
     | handCalc myHand > 21 = (Split 100, "")
-    | handCalc myHand == 21 = (Stand , "")
+    | handCalc myHand == 21 = (Hit , "")
     | length myHand == 2 = (DoubleDown 100, "")
     -- | = (Hit, "")
     -- | = (Stand, "")

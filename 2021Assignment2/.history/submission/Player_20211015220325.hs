@@ -25,7 +25,7 @@ playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
     | handCalc myHand < 21 = (Hit, "")
     | handCalc myHand > 21 = (Split 100, "")
-    | handCalc myHand == 21 = (Stand , "")
+    | handCalc myHand == 21 = (Hit , "")
     | length myHand == 2 = (DoubleDown 100, "")
     -- | = (Hit, "")
     -- | = (Stand, "")
