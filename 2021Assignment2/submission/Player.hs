@@ -22,6 +22,8 @@ import           TwentyOne.Rules    -- Rules of the game
 -- playCard Nothing _ _ _ _ _ = (Bid 100, "")
 -- playCard dealerUpCard playersPoints playersHand myId myMemory myHand = (Hit, "") 
 
+-- | trace ("bid: 100 pid=" ++ show myId ++ "points: " ++ show playersPoints ++ " pinfo: " ++ show playersHand ++ " hand: " ++ show myHand) False = undefined 
+
 playCard :: PlayFunc
 playCard Nothing _ _ _ _ _ = (Bid 100, "")
 playCard dealerUpCard playersPoints playersHand myId myMemory myHand
