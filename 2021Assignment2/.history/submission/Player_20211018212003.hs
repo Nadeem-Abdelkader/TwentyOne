@@ -11,20 +11,14 @@ import           TwentyOne.Rules    -- Rules of the game
 
 -- You can add more imports if you need them
 
--- getMayBeValue :: Maybe Card  -> Card 
--- getMayBeValue x =
---     case x of
---           Nothing -> Card Heart Five 
---           Just val -> val
-          
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 -- playCard :: PlayFunc
 -- playCard Nothing _ _ _ _ _ = (Bid 100, "")
 -- playCard dealerUpCard playersPoints playersHand myId myMemory myHand = (Hit, "") 
 
 playCard :: PlayFunc
-playCard Nothing _ _ _ _ _ = (Bid 100, "")
-playCard dealerUpCard playersPoints playersHand myId myMemory myHand
+playCard dealerUpCard _ _ _ _ myHand
+    | dealerUpCard == Nothing = (Bid 100, "")
     -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
     | handCalc myHand < 21 = (Hit, "")
     | handCalc myHand > 21 = (Split 100, "")
@@ -37,4 +31,8 @@ playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     -- | = (Insurance Points, "")
     | otherwise = (Stand ,"")
 
--- Actions = Bid Points | Hit | Stand | DoubleDown Points | Split Points | Insurance Points
+getMayBeValue :: Maybe Card  -> Card 
+getMayBeValue x =
+    case x of
+          Nothing -> Card Heart Five 
+          Just val -> val

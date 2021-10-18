@@ -23,8 +23,8 @@ import           TwentyOne.Rules    -- Rules of the game
 -- playCard dealerUpCard playersPoints playersHand myId myMemory myHand = (Hit, "") 
 
 playCard :: PlayFunc
-playCard Nothing _ _ _ _ _ = (Bid 100, "")
-playCard dealerUpCard playersPoints playersHand myId myMemory myHand
+playCard dealerUpCard _ _ _ _ myHand
+    | dealerUpCard == Nothing = (Bid 100, "")
     -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
     | handCalc myHand < 21 = (Hit, "")
     | handCalc myHand > 21 = (Split 100, "")
