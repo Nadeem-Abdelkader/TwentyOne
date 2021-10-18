@@ -22,3 +22,9 @@ cabal.project.local~
 .HTF/
 .ghc.environment.*
 .DS_Store
+.history
+*.history
+.history/
+*.history/
+/.history
+/*.history
