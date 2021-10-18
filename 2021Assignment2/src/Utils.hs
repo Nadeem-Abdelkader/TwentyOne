@@ -53,12 +53,6 @@ combineOn f = combine `on` f
 combineWith :: Eq b => (a -> b) -> [a] -> [a] -> [b]
 combineWith f = combineOn (f <$>)
 
-unionOn :: Eq b => (a -> [b]) -> a -> a -> [b]
-unionOn f = union `on` f
-
-unionWith :: Eq b => (a -> b) -> [a] -> [a] -> [b]
-unionWith f = unionOn (f <$>)
-
 -- | Left-biased choice on @Maybe@
 firstJust :: Maybe a -> Maybe a -> Maybe a
 firstJust (Just x) _ = Just x
