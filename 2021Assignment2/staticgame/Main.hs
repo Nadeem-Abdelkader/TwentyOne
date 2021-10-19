@@ -19,7 +19,7 @@ import safe      Player
 -- need to change the Module names of those players (don't forget to change the
 -- module name back to "Player" when you submit your code)
 players :: [Player]
-players = flip Player Player.playCard . show <$> [0 .. numPlayers - 1]
+players = flip Player Player.playCard . show <$> ([0 .. 9] :: [Int])
 
 rankings
     :: EitherIO GameError GameResult
