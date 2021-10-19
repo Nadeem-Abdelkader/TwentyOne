@@ -16,27 +16,27 @@ import           TwentyOne.Rules    -- Rules of the game
 --     case x of
 --           Nothing -> Card Heart Five 
 --           Just val -> val
-          
+--   
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 -- playCard :: PlayFunc
 -- playCard Nothing _ _ _ _ _ = (Bid 100, "")
 -- playCard dealerUpCard playersPoints playersHand myId myMemory myHand = (Hit, "") 
-
+-- 
 -- | trace ("bid: 100 pid=" ++ show myId ++ "points: " ++ show playersPoints ++ " pinfo: " ++ show playersHand ++ " hand: " ++ show myHand) False = undefined 
-
-playCard :: PlayFunc
-playCard Nothing _ _ _ _ _ = (Bid 100, "")
-playCard dealerUpCard playersPoints playersHand myId myMemory myHand
-    -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
-    | handCalc myHand < 21 = (Hit, "")
-    | handCalc myHand > 21 = (Split 100, "")
-    | handCalc myHand == 21 = (Stand , "")
-    | length myHand == 2 = (DoubleDown 100, "")
-    -- | = (Hit, "")
-    -- | = (Stand, "")
-    -- | = (DoubleDown Points, "")
-    -- | = (Split Points, "")
-    -- | = (Insurance Points, "")
-    | otherwise = (Stand ,"")
-
+-- 
+-- playCard :: PlayFunc
+-- playCard Nothing _ _ _ _ _ = (Bid 100, "")
+-- playCard dealerUpCard playersPoints playersHand myId myMemory myHand
+--     -- | getRank (getMayBeValue dealerUpCard) == Ace = (Insurance 50, "")
+--     | handCalc myHand < 21 = (Hit, "")
+--     | handCalc myHand > 21 = (Split 100, "")
+--     | handCalc myHand == 21 = (Stand , "")
+--     | length myHand == 2 = (DoubleDown 100, "")
+--     -- | = (Hit, "")
+--     -- | = (Stand, "")
+--     -- | = (DoubleDown Points, "")
+--     -- | = (Split Points, "")
+--     -- | = (Insurance Points, "")
+--     | otherwise = (Stand ,"")
+-- 
 -- Actions = Bid Points | Hit | Stand | DoubleDown Points | Split Points | Insurance Points
