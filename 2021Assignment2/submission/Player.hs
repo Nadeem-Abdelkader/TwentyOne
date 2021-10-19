@@ -58,43 +58,43 @@ playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     | (toPoints (getMayBeValue dealerUpCard) == 2) && (handCalc myHand >= 13) = (Stand, "")
     
     -- DOUBLE DOWN
-    -- | handCalc myHand == 10 = (DoubleDown 100, "")
+    -- | handCalc myHand == 10 = (DoubleDown 100, "")   
     -- | handCalc myHand == 11 = (DoubleDown 100, "")
     
     -- SPLIT
 
     -- SPLIT ON ACE'S
-    -- | myHand == [Card Heart Ace, Card Diamond Ace] = (Split 100, "")
-    -- | myHand == [Card Heart Ace, Card Spade Ace] = (Split 100, "")
-    -- | myHand == [Card Heart Ace, Card Club Ace] = (Split 100, "")
+    | myHand == [Card Heart Ace, Card Diamond Ace] = (Split 100, "")
+    | myHand == [Card Heart Ace, Card Spade Ace] = (Split 100, "")
+    | myHand == [Card Heart Ace, Card Club Ace] = (Split 100, "")
 
-    -- | myHand == [Card Diamond Ace, Card Heart Ace] = (Split 100, "")
-    -- | myHand == [Card Diamond Ace, Card Spade Ace] = (Split 100, "")
-    -- | myHand == [Card Diamond Ace, Card Club Ace] = (Split 100, "")
+    | myHand == [Card Diamond Ace, Card Heart Ace] = (Split 100, "")
+    | myHand == [Card Diamond Ace, Card Spade Ace] = (Split 100, "")
+    | myHand == [Card Diamond Ace, Card Club Ace] = (Split 100, "")
 
-    -- | myHand == [Card Spade Ace, Card Heart Ace] = (Split 100, "")
-    -- | myHand == [Card Spade Ace, Card Diamond Ace] = (Split 100, "")
-    -- | myHand == [Card Spade Ace, Card Club Ace] = (Split 100, "")
+    | myHand == [Card Spade Ace, Card Heart Ace] = (Split 100, "")
+    | myHand == [Card Spade Ace, Card Diamond Ace] = (Split 100, "")
+    | myHand == [Card Spade Ace, Card Club Ace] = (Split 100, "")
 
-    -- | myHand == [Card Club Ace, Card Heart Ace] = (Split 100, "")
-    -- | myHand == [Card Club Ace, Card Diamond Ace] = (Split 100, "")
-    -- | myHand == [Card Club Ace, Card Spade Ace] = (Split 100, "")
+    | myHand == [Card Club Ace, Card Heart Ace] = (Split 100, "")
+    | myHand == [Card Club Ace, Card Diamond Ace] = (Split 100, "")
+    | myHand == [Card Club Ace, Card Spade Ace] = (Split 100, "")
 
     -- SPLIT ON 8'S
-    -- | myHand == [Card Heart Eight, Card Diamond Eight] = (Bid 100, "")
-    -- | myHand == [Card Heart Eight, Card Spade Eight] = (Bid 100, "")
-    -- | myHand == [Card Heart Eight, Card Club Eight] = (Bid 100, "")
+    | myHand == [Card Heart Eight, Card Diamond Eight] = (Split 100, "")
+    | myHand == [Card Heart Eight, Card Spade Eight] = (Split 100, "")
+    | myHand == [Card Heart Eight, Card Club Eight] = (Split 100, "")
 
-    -- | myHand == [Card Diamond Eight, Card Heart Eight] = (Bid 100, "")
-    -- | myHand == [Card Diamond Eight, Card Spade Eight] = (Bid 100, "")
-    -- | myHand == [Card Diamond Eight, Card Club Eight] = (Bid 100, "")
+    | myHand == [Card Diamond Eight, Card Heart Eight] = (Split 100, "")
+    | myHand == [Card Diamond Eight, Card Spade Eight] = (Split 100, "")
+    | myHand == [Card Diamond Eight, Card Club Eight] = (Split 100, "")
 
-    -- | myHand == [Card Spade Eight, Card Heart Eight] = (Bid 100, "")
-    -- | myHand == [Card Spade Eight, Card Diamond Eight] = (Bid 100, "")
-    -- | myHand == [Card Spade Eight, Card Club Eight] = (Bid 100, "")
+    | myHand == [Card Spade Eight, Card Heart Eight] = (Split 100, "")
+    | myHand == [Card Spade Eight, Card Diamond Eight] = (Split 100, "")
+    | myHand == [Card Spade Eight, Card Club Eight] = (Split 100, "")
 
-    -- | myHand == [Card Club Eight, Card Heart Eight] = (Bid 100, "")
-    -- | myHand == [Card Club Eight, Card Diamond Eight] = (Bid 100, "")
-    -- | myHand == [Card Club Eight, Card Spade Eight] = (Bid 100, "")
+    | myHand == [Card Club Eight, Card Heart Eight] = (Split 100, "")
+    | myHand == [Card Club Eight, Card Diamond Eight] = (Split 100, "")
+    | myHand == [Card Club Eight, Card Spade Eight] = (Split 100, "")
     
-    | otherwise = (Hit, "")
+    | otherwise = (Stand, "")
