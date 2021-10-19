@@ -32,7 +32,7 @@ playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     -- | trace ("My MY MY: " ++ show (Card Club Ace)) False = undefined 
     
     -- DEALER HAS AN ACE
-    | getRank (getMayBeValue dealerUpCard) == Ace = (Hit, "")
+    | getRank (getMayBeValue dealerUpCard) == Ace  && (handCalc myHand <= 17) = (Hit, "")
     
     -- DEALER HAS A 10-CARD
     | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand == 10) = (Hit, "")
@@ -60,6 +60,9 @@ playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     -- DOUBLE DOWN
     -- | handCalc myHand == 10 = (DoubleDown 100, "")   
     -- | handCalc myHand == 11 = (DoubleDown 100, "")
+    -- | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand == 10) = (DoubleDown 100, "")   
+    -- | ((toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand == 9) = (DoubleDown 100, "")   
+
     
     -- SPLIT
 
