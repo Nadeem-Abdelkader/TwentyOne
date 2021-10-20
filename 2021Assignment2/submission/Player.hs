@@ -24,10 +24,10 @@ playCard dealerUpCard playersPoints playersHand myId myMemory myHand
     -- | trace ("Dealer: " ++ show (getRank (getMayBeValue dealerUpCard))) False = undefined
     
     -- INSURANCE
-    | insuranceHand dealerUpCard myMemory = (Insurance 50, "")
+    | insuranceHand dealerUpCard myMemory = (Insurance (maxInsure maxBid ), "")
 
     -- SPLIT
-    | splitHand dealerUpCard myHand = (Split 100, "")
+    | splitHand dealerUpCard myHand = (Split maxBid, "")
 
     -- DOUBLE DOWN
     -- | doubleDownHand dealerUpCard myHand = (DoubleDown 100, "")
@@ -47,7 +47,7 @@ getMayBeValue x =
           Just val -> val
 
 createSuitableBid :: Hand -> (Action , String)
-createSuitableBid currentHand = (Bid 100, "FIRST TURN AFTER BIDDING")
+createSuitableBid currentHand = (Bid maxBid, "FIRST TURN AFTER BIDDING")
 
 splitHand :: Maybe Card -> Hand -> Bool
 splitHand dealerUpCard currentHand
