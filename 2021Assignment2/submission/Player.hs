@@ -10,94 +10,117 @@ import           TwentyOne.Types    -- Here you will find types used in the game
 import           TwentyOne.Rules    -- Rules of the game
 
 import Debug.Trace
+import Data.Vector.Storable (create)
 
 -- You can add more imports if you need them
 
-getMayBeValue :: Maybe Card  -> Card 
-getMayBeValue x =
-    case x of
-          Nothing -> Card Heart Five 
-          Just val -> val
-
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
-playCard Nothing _ _ _ _ _ = (Bid 100, "")
+playCard Nothing _ _ _ _ myHand = createSuitableBid myHand
 playCard dealerUpCard playersPoints playersHand myId myMemory myHand
-    
+    -- TRACE
     -- | trace ("bid: pid=" ++ show myId ++ " pinfo: " ++ show playersHand ++ " hand: " ++ show myHand) False = undefined 
     -- | trace ("Hand Value: " ++ show (handCalc myHand)) False = undefined 
-    -- | trace ("Dealer: " ++ show (getRank (getMayBeValue dealerUpCard))) False = undefined 
-    -- | trace ("My Id: " ++ show myId) False = undefined 
-    -- | trace ("My Hand: " ++ show myHand) False = undefined 
-    -- | trace ("My MY MY: " ++ show (Card Club Ace)) False = undefined 
+    -- | trace ("Dealer: " ++ show (getRank (getMayBeValue dealerUpCard))) False = undefined
     
-    -- DEALER HAS AN ACE
-    | getRank (getMayBeValue dealerUpCard) == Ace  && (handCalc myHand <= 17) = (Hit, "")
-    
-    -- DEALER HAS A 10-CARD
-    | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand == 10) = (Hit, "")
-    | (toPoints (getMayBeValue dealerUpCard) == 10) && ((handCalc myHand >= 12) && (handCalc myHand <= 16)) = (Hit, "")
-    | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand >= 17) = (Stand, "")
-    
-    -- DEALER HAS A 7,8, OR A 9
-    | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && (handCalc myHand <= 9) = (Hit, "")
-    | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && ((handCalc myHand >= 12) && (handCalc myHand <= 16)) = (Hit, "")
-    | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && (handCalc myHand >= 17) = (Stand , "")
-    
-    -- DEALER HAS 4,5,6
-    | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand <= 8) = (Hit, "")
-    | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand >= 12) = (Stand , "")
-    
-    -- DEALER HAS A 3
-    | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand <= 8) = (Hit, "")
-    | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand == 12) = (Hit, "")
-    | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand >= 13) = (Stand, "")
-     
-    -- DEALER HAS A 2
-    | (toPoints (getMayBeValue dealerUpCard) == 2) && (handCalc myHand <= 9) = (Hit, "")
-    | (toPoints (getMayBeValue dealerUpCard) == 2) && (handCalc myHand >= 13) = (Stand, "")
-    
-    -- DOUBLE DOWN
-    -- | handCalc myHand == 10 = (DoubleDown 100, "")   
-    -- | handCalc myHand == 11 = (DoubleDown 100, "")
-    -- | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand == 10) = (DoubleDown 100, "")   
-    -- | ((toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand == 9) = (DoubleDown 100, "")   
+    -- INSURANCE
+    | insuranceHand dealerUpCard myMemory = (Insurance 50, "")
 
-    
     -- SPLIT
+    | splitHand myHand = (Split 100, "")
 
-    -- SPLIT ON ACE'S
-    | myHand == [Card Heart Ace, Card Diamond Ace] = (Split 100, "")
-    | myHand == [Card Heart Ace, Card Spade Ace] = (Split 100, "")
-    | myHand == [Card Heart Ace, Card Club Ace] = (Split 100, "")
+    -- DOUBLE DOWN
+    -- | doubleDownHand dealerUpCard myHand = (DoubleDown 100, "")
 
-    | myHand == [Card Diamond Ace, Card Heart Ace] = (Split 100, "")
-    | myHand == [Card Diamond Ace, Card Spade Ace] = (Split 100, "")
-    | myHand == [Card Diamond Ace, Card Club Ace] = (Split 100, "")
+    -- HIT
+    | hitHand dealerUpCard myHand = (Hit, "")
 
-    | myHand == [Card Spade Ace, Card Heart Ace] = (Split 100, "")
-    | myHand == [Card Spade Ace, Card Diamond Ace] = (Split 100, "")
-    | myHand == [Card Spade Ace, Card Club Ace] = (Split 100, "")
-
-    | myHand == [Card Club Ace, Card Heart Ace] = (Split 100, "")
-    | myHand == [Card Club Ace, Card Diamond Ace] = (Split 100, "")
-    | myHand == [Card Club Ace, Card Spade Ace] = (Split 100, "")
-
-    -- SPLIT ON 8'S
-    | myHand == [Card Heart Eight, Card Diamond Eight] = (Split 100, "")
-    | myHand == [Card Heart Eight, Card Spade Eight] = (Split 100, "")
-    | myHand == [Card Heart Eight, Card Club Eight] = (Split 100, "")
-
-    | myHand == [Card Diamond Eight, Card Heart Eight] = (Split 100, "")
-    | myHand == [Card Diamond Eight, Card Spade Eight] = (Split 100, "")
-    | myHand == [Card Diamond Eight, Card Club Eight] = (Split 100, "")
-
-    | myHand == [Card Spade Eight, Card Heart Eight] = (Split 100, "")
-    | myHand == [Card Spade Eight, Card Diamond Eight] = (Split 100, "")
-    | myHand == [Card Spade Eight, Card Club Eight] = (Split 100, "")
-
-    | myHand == [Card Club Eight, Card Heart Eight] = (Split 100, "")
-    | myHand == [Card Club Eight, Card Diamond Eight] = (Split 100, "")
-    | myHand == [Card Club Eight, Card Spade Eight] = (Split 100, "")
+    -- STAND
+    | standHand dealerUpCard myHand = (Stand, "")
     
     | otherwise = (Stand, "")
+
+getMayBeValue :: Maybe Card  -> Card
+getMayBeValue x =
+    case x of
+          Nothing -> Card Heart Five
+          Just val -> val
+
+createSuitableBid :: Hand -> (Action , String)
+createSuitableBid currentHand = (Bid 100, "FIRST TURN AFTER BIDDING")
+
+splitHand :: Hand -> Bool
+splitHand currentHand
+    | length currentHand /= 2 = False
+
+    -- SPLIT ON ACE'S
+    | currentHand == [Card Heart Ace, Card Diamond Ace] = True
+    | currentHand == [Card Heart Ace, Card Spade Ace] = True
+    | currentHand == [Card Heart Ace, Card Club Ace] = True
+
+    | currentHand == [Card Diamond Ace, Card Heart Ace] = True
+    | currentHand == [Card Diamond Ace, Card Spade Ace] = True
+    | currentHand == [Card Diamond Ace, Card Club Ace] = True
+
+    | currentHand == [Card Spade Ace, Card Heart Ace] = True
+    | currentHand == [Card Spade Ace, Card Diamond Ace] = True
+    | currentHand == [Card Spade Ace, Card Club Ace] = True
+
+    | currentHand == [Card Club Ace, Card Heart Ace] = True
+    | currentHand == [Card Club Ace, Card Diamond Ace] = True
+    | currentHand == [Card Club Ace, Card Spade Ace] = True
+
+    -- SPLIT ON 8'S
+    | currentHand == [Card Heart Eight, Card Diamond Eight ] = True
+    | currentHand == [Card Heart Eight, Card Spade Eight] = True
+    | currentHand == [Card Heart Eight, Card Club Eight] = True
+
+    | currentHand == [Card Diamond Eight, Card Heart Eight] = True
+    | currentHand == [Card Diamond Eight, Card Spade Eight] = True
+    | currentHand == [Card Diamond Eight, Card Club Eight] = True
+
+    | currentHand == [Card Spade Eight, Card Heart Eight] = True
+    | currentHand == [Card Spade Eight, Card Diamond Eight] = True
+    | currentHand == [Card Spade Eight, Card Club Eight] = True
+
+    | currentHand == [Card Club Eight, Card Heart Eight] = True
+    | currentHand == [Card Club Eight, Card Diamond Eight] = True
+    | currentHand == [Card Club Eight, Card Spade Eight] = True
+
+    | otherwise = False
+
+hitHand :: Maybe Card -> Hand -> Bool
+hitHand dealerUpCard myHand
+    | getRank (getMayBeValue dealerUpCard) == Ace  && (handCalc myHand <= 17) = True
+    | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand == 10) = True
+    | (toPoints (getMayBeValue dealerUpCard) == 10) && ((handCalc myHand >= 12) && (handCalc myHand <= 16)) = True
+    | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && (handCalc myHand <= 9) = True
+    | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && ((handCalc myHand >= 12) && (handCalc myHand <= 16)) = True
+    | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand <= 8) = True
+    | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand <= 8) = True
+    | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand == 12) = True
+    | (toPoints (getMayBeValue dealerUpCard) == 2) && (handCalc myHand <= 9) = True
+    | otherwise = False
+
+standHand :: Maybe Card -> Hand -> Bool
+standHand dealerUpCard myHand
+    | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand >= 17) = True
+    | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && (handCalc myHand >= 17) = True
+    | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand >= 12) = True
+    | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand >= 13) = True 
+    | (toPoints (getMayBeValue dealerUpCard) == 2) && (handCalc myHand >= 13) = True
+    | otherwise = False
+
+doubleDownHand :: Maybe Card -> Hand -> Bool
+doubleDownHand dealerUpCard myHand
+    | length myHand /= 2 = False
+    | handCalc myHand == 10 = True  
+    | handCalc myHand == 11 = True
+    | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand == 10) = True   
+    | ((toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand == 9) = True
+    | otherwise = False 
+
+insuranceHand :: Maybe Card -> Maybe String -> Bool
+insuranceHand dealerUpCard myMemory
+    | getRank (getMayBeValue dealerUpCard) == Ace  && myMemory == Just "FIRST TURN AFTER BIDDING" = True
+    | otherwise = False
