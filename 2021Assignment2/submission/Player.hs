@@ -69,34 +69,8 @@ splitHand dealerUpCard currentHand
     -- IF THE TWO CARD'S IN HAND ARE ACES, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Ace && getRank (head (tail currentHand)) == Ace = True
 
-    -- | currentHand == [Card Heart Ace, Card Diamond Ace] = True
-    -- | currentHand == [Card Heart Ace, Card Spade Ace] = True
-    -- | currentHand == [Card Heart Ace, Card Club Ace] = True
-    -- | currentHand == [Card Diamond Ace, Card Heart Ace] = True
-    -- | currentHand == [Card Diamond Ace, Card Spade Ace] = True
-    -- | currentHand == [Card Diamond Ace, Card Club Ace] = True
-    -- | currentHand == [Card Spade Ace, Card Heart Ace] = True
-    -- | currentHand == [Card Spade Ace, Card Diamond Ace] = True
-    -- | currentHand == [Card Spade Ace, Card Club Ace] = True
-    -- | currentHand == [Card Club Ace, Card Heart Ace] = True
-    -- | currentHand == [Card Club Ace, Card Diamond Ace] = True
-    -- | currentHand == [Card Club Ace, Card Spade Ace] = True
-
     -- IF THE TWO CARD'S IN HAND ARE EIGHTS, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Eight && getRank (head (tail currentHand)) == Eight = True
-
-    -- | currentHand == [Card Heart Eight, Card Diamond Eight ] = True
-    -- | currentHand == [Card Heart Eight, Card Spade Eight] = True
-    -- | currentHand == [Card Heart Eight, Card Club Eight] = True
-    -- | currentHand == [Card Diamond Eight, Card Heart Eight] = True
-    -- | currentHand == [Card Diamond Eight, Card Spade Eight] = True
-    -- | currentHand == [Card Diamond Eight, Card Club Eight] = True
-    -- | currentHand == [Card Spade Eight, Card Heart Eight] = True
-    -- | currentHand == [Card Spade Eight, Card Diamond Eight] = True
-    -- | currentHand == [Card Spade Eight, Card Club Eight] = True
-    -- | currentHand == [Card Club Eight, Card Heart Eight] = True
-    -- | currentHand == [Card Club Eight, Card Diamond Eight] = True
-    -- | currentHand == [Card Club Eight, Card Spade Eight] = True
 
     -- IF THE TWO CARD'S IN HAND ARE SEVENS AND DEALER'S UP CARD IS WORTH 2-7, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Seven && getRank (head (tail currentHand)) == Seven  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7)
@@ -107,116 +81,19 @@ splitHand dealerUpCard currentHand
     -- IF THE TWO CARD'S IN HAND ARE THREES AND DEALER'S UP CARD IS WORTH 2-7, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Three && getRank (head (tail currentHand)) == Three  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7)
 
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven , Card Diamond Seven ] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven, Card Spade Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven, Card Club Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Heart Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Spade Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Club Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Heart Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Diamond Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Club Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Heart Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Diamond Seven] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Spade Seven] = True
-
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two , Card Diamond Two ] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two, Card Spade Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two, Card Club Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Heart Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Spade Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Club Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Heart Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Diamond Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Club Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Heart Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Diamond Two] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Spade Two] = True
-
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three  , Card Diamond Three ] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three, Card Spade Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three, Card Club Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Heart Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Spade Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Club Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Heart Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Diamond Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Club Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Heart Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Diamond Three] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Spade Three] = True
-
     -- IF THE TWO CARD'S IN HAND ARE SIXES AND DEALER'S UP CARD IS WORTH 2-6, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Six && getRank (head (tail currentHand)) == Six  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)
    
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Diamond Six ] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Spade Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Club Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Heart Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Spade Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Club Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Heart Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Diamond Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Club Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Heart Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Diamond Six] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Spade Six] = True
-
     -- IF THE TWO CARD'S IN HAND ARE FIVES AND DEALER'S UP CARD IS WORTH 2-9, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Five && getRank (head (tail currentHand)) == Five  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9)
-
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five , Card Diamond Five ] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five, Card Spade Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five, Card Club Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Heart Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Spade Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Club Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Heart Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Diamond Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Club Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Heart Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Diamond Five] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Spade Five] = True
 
     -- IF THE TWO CARD'S IN HAND ARE FOURS AND DEALER'S UP CARD IS WORTH 5-6, TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Four && getRank (head (tail currentHand)) == Four  = (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6)
 
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Diamond Four ] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Spade Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Club Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Heart Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Spade Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Club Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Heart Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Diamond Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Club Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Heart Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Diamond Four] = True
-    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Spade Four] = True
-
     -- IF THE TWO CARD'S IN HAND ARE NINES AND DEALER'S UP CARD IS WORTH NOT (2-9 BUT NOT 7), TAKE THE SPLIT ACTION (i.e. RETURN TRUE)
     | getRank (head currentHand) == Nine && getRank (head (tail currentHand)) == Nine  = not ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && (toPoints (getMayBeValue dealerUpCard) /= 7))
-
-    -- | not ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && (toPoints (getMayBeValue dealerUpCard) /= 7)) = False
-    -- | currentHand == [Card Heart Nine, Card Diamond Nine ] = True
-    -- | currentHand == [Card Heart Nine, Card Spade Nine] = True
-    -- | currentHand == [Card Heart Nine, Card Club Nine] = True
-    -- | currentHand == [Card Diamond Nine, Card Heart Nine] = True
-    -- | currentHand == [Card Diamond Nine, Card Spade Nine] = True
-    -- | currentHand == [Card Diamond Nine, Card Club Nine] = True
-    -- | currentHand == [Card Spade Nine, Card Heart Nine] = True
-    -- | currentHand == [Card Spade Nine, Card Diamond Nine] = True
-    -- | currentHand == [Card Spade Nine, Card Club Nine] = True
-    -- | currentHand == [Card Club Nine, Card Heart Nine] = True
-    -- | currentHand == [Card Club Nine, Card Diamond Nine] = True
-    -- | currentHand == [Card Club Nine, Card Spade Nine] = True
     
     | otherwise = False
-
--- splitOnSevensTwosThrees :: Maybe Card -> Bool
--- splitOnSevensTwosThrees dealerUpCard
---     | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) = True
---     | otherwise = False 
 
 -- THIS FUNCTION IS RESPONSIBLE FOR DECIDING WHETHER THE PLAYER SHOULD TAKE THE HIT ACTION OR NOT
 -- IT WILL RETURN TRUE IF THE PLAYER SHOULD HIT, FALSE IF HE SHOULDN'T HIT
