@@ -211,7 +211,26 @@ splitHand dealerUpCard currentHand
 
 hitHand :: Maybe Card -> Hand -> Bool
 hitHand dealerUpCard myHand
-    -- | handCalc myHand == 8 = True
+    | handCalc myHand == 8 = True
+    
+    -- SOFT 18 TO DEALER 9 - ACE
+    | (handCalc myHand == 18) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && (toPoints (getMayBeValue dealerUpCard) >= 9) && (toPoints (getMayBeValue dealerUpCard) <= 11) = True
+
+    -- SOFT 17 TO DEALER NOT 3 - 6
+    | (handCalc myHand == 17) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getMayBeValue dealerUpCard) >= 3) && (toPoints (getMayBeValue dealerUpCard) <= 6)) = True
+
+    -- SOFT 16 TO DEALER NOT 4 - 6
+    | (handCalc myHand == 16) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getMayBeValue dealerUpCard) >= 4) && (toPoints (getMayBeValue dealerUpCard) <= 6)) = True
+
+    -- SOFT 15 TO DEALER NOT 4 - 6
+    | (handCalc myHand == 17) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getMayBeValue dealerUpCard) >= 4) && (toPoints (getMayBeValue dealerUpCard) <= 6)) = True
+
+    -- SOFT 14 TO DEALER NOT 5 - 6
+    | (handCalc myHand == 15) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6)) = True
+
+    -- SOFT 13 TO DEALER NOT 5 - 6
+    | (handCalc myHand == 15) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6)) = True
+
     | getRank (getMayBeValue dealerUpCard) == Ace  && (handCalc myHand <= 17) = True
     | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand == 10) = True
     | (toPoints (getMayBeValue dealerUpCard) == 10) && ((handCalc myHand >= 12) && (handCalc myHand <= 16)) = True
@@ -225,12 +244,27 @@ hitHand dealerUpCard myHand
 
 standHand :: Maybe Card -> Hand -> Bool
 standHand dealerUpCard myHand
-    -- | handCalc myHand >= 17 = True
+    | handCalc myHand >= 17 = True
+    -- SOFT 20
+    | (handCalc myHand == 20) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) = True
+
+    -- SOFT 19 TO DEALER NOT 6
+    | (handCalc myHand == 19) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && (toPoints (getMayBeValue dealerUpCard) /= 6) = True
+
+    -- SOFT 18 TO DEALER NOT 2-6 AND NOT 9 - ACE
+    | (handCalc myHand == 18) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)) && (toPoints (getMayBeValue dealerUpCard) >= 9) = True
+
     | (toPoints (getMayBeValue dealerUpCard) == 10) && (handCalc myHand >= 17) = True
     | ((toPoints (getMayBeValue dealerUpCard) == 7) || (toPoints (getMayBeValue dealerUpCard) == 8) || (toPoints (getMayBeValue dealerUpCard) == 9)) && (handCalc myHand >= 17) = True
     | ((toPoints (getMayBeValue dealerUpCard) == 4) || (toPoints (getMayBeValue dealerUpCard) == 5) || (toPoints (getMayBeValue dealerUpCard) == 6)) && (handCalc myHand >= 12) = True
     | (toPoints (getMayBeValue dealerUpCard) == 3) && (handCalc myHand >= 13) = True 
     | (toPoints (getMayBeValue dealerUpCard) == 2) && (handCalc myHand >= 13) = True
+    | ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)) && (handCalc myHand == 16) = True
+    | ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)) && (handCalc myHand == 15) = True
+    | ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)) && (handCalc myHand == 14) = True
+    | ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)) && (handCalc myHand == 13) = True
+    | ((toPoints (getMayBeValue dealerUpCard) >= 4) && (toPoints (getMayBeValue dealerUpCard) <= 6)) && (handCalc myHand == 12) = True
+
     -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && handCalc myHand == 16 = True
     -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && handCalc myHand == 15 = True
     -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && handCalc myHand == 14 = True
