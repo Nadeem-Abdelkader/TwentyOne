@@ -54,160 +54,182 @@ splitHand dealerUpCard currentHand
     | length currentHand /= 2 = False
 
     -- SPLIT ON ACE'S
-    | currentHand == [Card Heart Ace, Card Diamond Ace] = True
-    | currentHand == [Card Heart Ace, Card Spade Ace] = True
-    | currentHand == [Card Heart Ace, Card Club Ace] = True
+    -- | trace ("Hand : " ++ show (currentHand)) False = undefined 
+    -- | trace ("1st : " ++ show (getRank (head currentHand) == Ace)) False = undefined 
+    -- | trace ("2nd : " ++ show (getRank (head (tail currentHand)) == Ace)) False = undefined 
+    -- | trace ("Both : " ++ show (getRank (head currentHand) == Ace && getRank (head (tail currentHand)) == Ace)) False = undefined 
+    | getRank (head currentHand) == Ace && getRank (head (tail currentHand)) == Ace = True
+    -- | currentHand == [Card Heart Ace, Card Diamond Ace] = True
+    -- | currentHand == [Card Heart Ace, Card Spade Ace] = True
+    -- | currentHand == [Card Heart Ace, Card Club Ace] = True
 
-    | currentHand == [Card Diamond Ace, Card Heart Ace] = True
-    | currentHand == [Card Diamond Ace, Card Spade Ace] = True
-    | currentHand == [Card Diamond Ace, Card Club Ace] = True
+    -- | currentHand == [Card Diamond Ace, Card Heart Ace] = True
+    -- | currentHand == [Card Diamond Ace, Card Spade Ace] = True
+    -- | currentHand == [Card Diamond Ace, Card Club Ace] = True
 
-    | currentHand == [Card Spade Ace, Card Heart Ace] = True
-    | currentHand == [Card Spade Ace, Card Diamond Ace] = True
-    | currentHand == [Card Spade Ace, Card Club Ace] = True
+    -- | currentHand == [Card Spade Ace, Card Heart Ace] = True
+    -- | currentHand == [Card Spade Ace, Card Diamond Ace] = True
+    -- | currentHand == [Card Spade Ace, Card Club Ace] = True
 
-    | currentHand == [Card Club Ace, Card Heart Ace] = True
-    | currentHand == [Card Club Ace, Card Diamond Ace] = True
-    | currentHand == [Card Club Ace, Card Spade Ace] = True
+    -- | currentHand == [Card Club Ace, Card Heart Ace] = True
+    -- | currentHand == [Card Club Ace, Card Diamond Ace] = True
+    -- | currentHand == [Card Club Ace, Card Spade Ace] = True
 
     -- SPLIT ON 8'S
-    | currentHand == [Card Heart Eight, Card Diamond Eight ] = True
-    | currentHand == [Card Heart Eight, Card Spade Eight] = True
-    | currentHand == [Card Heart Eight, Card Club Eight] = True
+    | getRank (head currentHand) == Eight && getRank (head (tail currentHand)) == Eight = True
+    -- | currentHand == [Card Heart Eight, Card Diamond Eight ] = True
+    -- | currentHand == [Card Heart Eight, Card Spade Eight] = True
+    -- | currentHand == [Card Heart Eight, Card Club Eight] = True
 
-    | currentHand == [Card Diamond Eight, Card Heart Eight] = True
-    | currentHand == [Card Diamond Eight, Card Spade Eight] = True
-    | currentHand == [Card Diamond Eight, Card Club Eight] = True
+    -- | currentHand == [Card Diamond Eight, Card Heart Eight] = True
+    -- | currentHand == [Card Diamond Eight, Card Spade Eight] = True
+    -- | currentHand == [Card Diamond Eight, Card Club Eight] = True
 
-    | currentHand == [Card Spade Eight, Card Heart Eight] = True
-    | currentHand == [Card Spade Eight, Card Diamond Eight] = True
-    | currentHand == [Card Spade Eight, Card Club Eight] = True
+    -- | currentHand == [Card Spade Eight, Card Heart Eight] = True
+    -- | currentHand == [Card Spade Eight, Card Diamond Eight] = True
+    -- | currentHand == [Card Spade Eight, Card Club Eight] = True
 
-    | currentHand == [Card Club Eight, Card Heart Eight] = True
-    | currentHand == [Card Club Eight, Card Diamond Eight] = True
-    | currentHand == [Card Club Eight, Card Spade Eight] = True
+    -- | currentHand == [Card Club Eight, Card Heart Eight] = True
+    -- | currentHand == [Card Club Eight, Card Diamond Eight] = True
+    -- | currentHand == [Card Club Eight, Card Spade Eight] = True
 
     -- SPLIT ON 7'S FOR DEALER 2 - 7
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven , Card Diamond Seven ] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven, Card Spade Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven, Card Club Seven] = True
+    | getRank (head currentHand) == Seven && getRank (head (tail currentHand)) == Seven  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7)
+    | getRank (head currentHand) == Two && getRank (head (tail currentHand)) == Two  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7)
+    | getRank (head currentHand) == Three && getRank (head (tail currentHand)) == Three  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7)
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Heart Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Spade Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Club Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven , Card Diamond Seven ] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven, Card Spade Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Seven, Card Club Seven] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Heart Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Diamond Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Club Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Heart Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Spade Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Seven, Card Club Seven] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Heart Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Diamond Seven] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Spade Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Heart Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Diamond Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Seven, Card Club Seven] = True
+
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Heart Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Diamond Seven] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Seven, Card Spade Seven] = True
 
 -- SPLIT ON 2'S FOR DEALER 2 - 7
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two , Card Diamond Two ] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two, Card Spade Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two, Card Club Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two , Card Diamond Two ] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two, Card Spade Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Two, Card Club Two] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Heart Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Spade Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Club Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Heart Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Spade Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Two, Card Club Two] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Heart Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Diamond Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Club Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Heart Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Diamond Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Two, Card Club Two] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Heart Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Diamond Two] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Spade Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Heart Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Diamond Two] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Two, Card Spade Two] = True
 
 -- SPLIT ON 3'S FOR DEALER 2 - 7
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three  , Card Diamond Three ] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three, Card Spade Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three, Card Club Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three  , Card Diamond Three ] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three, Card Spade Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Heart Three, Card Club Three] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Heart Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Spade Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Club Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Heart Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Spade Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Diamond Three, Card Club Three] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Heart Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Diamond Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Club Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Heart Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Diamond Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Spade Three, Card Club Three] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Heart Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Diamond Three] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Spade Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Heart Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Diamond Three] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) && currentHand == [Card Club Three, Card Spade Three] = True
 
 -- SPLIT ON 6'S FOR DEALER 2 - 6
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Diamond Six ] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Spade Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Club Six] = True
+    | getRank (head currentHand) == Six && getRank (head (tail currentHand)) == Six  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6)
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Diamond Six ] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Spade Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Six, Card Club Six] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Heart Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Spade Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Club Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Heart Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Spade Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Six, Card Club Six] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Heart Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Diamond Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Club Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Heart Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Diamond Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Six, Card Club Six] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Heart Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Diamond Six] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Spade Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Heart Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Diamond Six] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Six, Card Spade Six] = True
 
 -- SPLIT ON 5'S FOR DEALER 2 - 9
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five , Card Diamond Five ] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five, Card Spade Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five, Card Club Five] = True
+    | getRank (head currentHand) == Five && getRank (head (tail currentHand)) == Five  = (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9)
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Heart Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Spade Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Club Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five , Card Diamond Five ] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five, Card Spade Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Heart Five, Card Club Five] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Heart Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Diamond Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Club Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Heart Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Spade Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Diamond Five, Card Club Five] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Heart Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Diamond Five] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Spade Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Heart Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Diamond Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Spade Five, Card Club Five] = True
+
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Heart Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Diamond Five] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && currentHand == [Card Club Five, Card Spade Five] = True
 
 -- SPLIT ON 4'S FOR DEALER 5 - 6
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Diamond Four ] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Spade Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Club Four] = True
+    | getRank (head currentHand) == Four && getRank (head (tail currentHand)) == Four  = (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6)
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Heart Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Spade Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Club Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Diamond Four ] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Spade Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Heart Four, Card Club Four] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Heart Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Diamond Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Club Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Heart Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Spade Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Diamond Four, Card Club Four] = True
 
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Heart Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Diamond Four] = True
-    | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Spade Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Heart Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Diamond Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Spade Four, Card Club Four] = True
+
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Heart Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Diamond Four] = True
+    -- | (toPoints (getMayBeValue dealerUpCard) >= 5) && (toPoints (getMayBeValue dealerUpCard) <= 6) && currentHand == [Card Club Four, Card Spade Four] = True
 
     -- SPLIT ON 9'S for dealer 2 - 9 except 7
-    | not ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && (toPoints (getMayBeValue dealerUpCard) /= 7)) = False
-    | currentHand == [Card Heart Nine, Card Diamond Nine ] = True
-    | currentHand == [Card Heart Nine, Card Spade Nine] = True
-    | currentHand == [Card Heart Nine, Card Club Nine] = True
+    | getRank (head currentHand) == Nine && getRank (head (tail currentHand)) == Nine  = not ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && (toPoints (getMayBeValue dealerUpCard) /= 7))
 
-    | currentHand == [Card Diamond Nine, Card Heart Nine] = True
-    | currentHand == [Card Diamond Nine, Card Spade Nine] = True
-    | currentHand == [Card Diamond Nine, Card Club Nine] = True
+    -- | not ((toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 9) && (toPoints (getMayBeValue dealerUpCard) /= 7)) = False
+    -- | currentHand == [Card Heart Nine, Card Diamond Nine ] = True
+    -- | currentHand == [Card Heart Nine, Card Spade Nine] = True
+    -- | currentHand == [Card Heart Nine, Card Club Nine] = True
 
-    | currentHand == [Card Spade Nine, Card Heart Nine] = True
-    | currentHand == [Card Spade Nine, Card Diamond Nine] = True
-    | currentHand == [Card Spade Nine, Card Club Nine] = True
+    -- | currentHand == [Card Diamond Nine, Card Heart Nine] = True
+    -- | currentHand == [Card Diamond Nine, Card Spade Nine] = True
+    -- | currentHand == [Card Diamond Nine, Card Club Nine] = True
 
-    | currentHand == [Card Club Nine, Card Heart Nine] = True
-    | currentHand == [Card Club Nine, Card Diamond Nine] = True
-    | currentHand == [Card Club Nine, Card Spade Nine] = True
+    -- | currentHand == [Card Spade Nine, Card Heart Nine] = True
+    -- | currentHand == [Card Spade Nine, Card Diamond Nine] = True
+    -- | currentHand == [Card Spade Nine, Card Club Nine] = True
+
+    -- | currentHand == [Card Club Nine, Card Heart Nine] = True
+    -- | currentHand == [Card Club Nine, Card Diamond Nine] = True
+    -- | currentHand == [Card Club Nine, Card Spade Nine] = True
 
     | otherwise = False
+
+-- splitOnSevensTwosThrees :: Maybe Card -> Bool
+-- splitOnSevensTwosThrees dealerUpCard
+--     | (toPoints (getMayBeValue dealerUpCard) >= 2) && (toPoints (getMayBeValue dealerUpCard) <= 7) = True
+--     | otherwise = False 
 
 hitHand :: Maybe Card -> Hand -> Bool
 hitHand dealerUpCard myHand
