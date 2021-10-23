@@ -31,8 +31,8 @@ playCard dealerUpCard _ _ _ myMemory myHand
     | standOrNot dealerUpCard myHand = (Stand, "")
     
     -- If none of the conditions were fulfilled, take the stand action
-    | handCalc myHand >= 21 = (Stand, "")
-    | handCalc myHand < 21 = (Hit, "")
+    -- | handCalc myHand >= 21 = (Stand, "")
+    -- | handCalc myHand < 21 = (Hit, "")
     | otherwise = (Stand, "")
 
 -- This function gets the actual value out of the Maybe context (e.g. Just Card Spade Ace --> Card Space Ace))
@@ -87,13 +87,30 @@ splitOrNot dealerUpCard myHand
 -- This function is responsible for deciding whether the player should take the Hit action or not
 -- It will return True if the player should take the Hit action, and False if the player shouldn't take the Hit action
 hitOrNot :: Maybe Card -> Hand -> Bool
-hitOrNot _ myHand
+hitOrNot dealerUpCard myHand
 
-    -- IF hand value is equal to Eight, take the hit action (i.e. return True)
+    -- -- If current hand value <= 17 and dealer's up card = Ace, take the hit action (i.e. return True)
+    | getRank (getJustBeValue dealerUpCard) == Ace && (handCalc myHand <= 17) = True
+
+    -- If hand value is equal to Eight, take the hit action (i.e. return True)
     | handCalc myHand == 8 = True
     
+    | handCalc myHand <= 11 = True
+
+    -- -- If current hand value >= 13 and dealer's up card = 3, take the hit action (i.e. return True)
+    | (toPoints (getJustBeValue dealerUpCard) == 3) && (handCalc myHand <= 12) = True 
+
+    -- -- If current hand value >= 13 and dealer's up card = 2, take the hit action (i.e. return True)
+    | (toPoints (getJustBeValue dealerUpCard) == 2) && (handCalc myHand <= 12) = True
+
     -- -- If current hand is a Soft 18 and dealer's up card is worth 9 - Ace, take the hit action (i.e. return True)
     -- | (handCalc myHand == 18) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && (toPoints (getJustBeValue dealerUpCard) >= 9) && (toPoints (getJustBeValue dealerUpCard) <= 11) = True
+
+    -- -- If current hand is a Soft 12-17 take the hit action (i.e. return True)
+    | ((handCalc myHand >= 12) && (handCalc myHand <= 17)) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) = True
+
+    -- -- If current hand is a Soft 18 and dea;ers up card is not 7 or 8 take the hit action (i.e. return True)
+    | (handCalc myHand == 18) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getJustBeValue dealerUpCard) >= 7) && (toPoints (getJustBeValue dealerUpCard) <= 8)) = True
 
     -- -- If current hand is a Soft 17 and dealer's up card is worth 3 - 6, take the hit action (i.e. return True)
     -- | (handCalc myHand == 17) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && not ((toPoints (getJustBeValue dealerUpCard) >= 3) && (toPoints (getJustBeValue dealerUpCard) <= 6)) = True
@@ -128,6 +145,12 @@ hitOrNot _ myHand
     -- -- If current hand value is less than or equal to 8 and dealer's up card is a 4,5,or 6, take the hit action (i.e. return True)
     -- | ((toPoints (getJustBeValue dealerUpCard) == 4) || (toPoints (getJustBeValue dealerUpCard) == 5) || (toPoints (getJustBeValue dealerUpCard) == 6)) && (handCalc myHand <= 8) = True
 
+    -- If current hand value is less than or equal to 11 and dealer's up card is a 4,5,or 6, take the hit action (i.e. return True)
+    | ((toPoints (getJustBeValue dealerUpCard) == 4) || (toPoints (getJustBeValue dealerUpCard) == 5) || (toPoints (getJustBeValue dealerUpCard) == 6)) && (handCalc myHand <= 11) = True
+
+    -- If current hand value is less than or equal to 16 and dealer's up card is a 7,8,9,10, take the hit action (i.e. return True)
+    | ((toPoints (getJustBeValue dealerUpCard) == 7) || (toPoints (getJustBeValue dealerUpCard) == 8) || (toPoints (getJustBeValue dealerUpCard) == 9) || (toPoints (getJustBeValue dealerUpCard) == 10)) && (handCalc myHand <= 16) = True
+
     -- -- If current hand value is less than or equal to 8 and dealer's up card is a 3, take the hit action (i.e. return True)
     -- | (toPoints (getJustBeValue dealerUpCard) == 3) && (handCalc myHand <= 8) = True
     
@@ -145,11 +168,17 @@ hitOrNot _ myHand
 standOrNot :: Maybe Card -> Hand -> Bool
 standOrNot dealerUpCard myHand
 
+    | handCalc myHand <= 11 = False
+
+
     -- If hand value is equal to or greater than 17, take the stand action (i.e. return True)
     | handCalc myHand >= 17 = True
     
-    -- -- If current hand is a soft 20, take the stand action (i.e. return True)
-    | (handCalc myHand == 20) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) = True
+    -- -- If current hand is a Soft 18 and dealers up card = 7 or 8, take the stand action (i.e. return True)
+    | (handCalc myHand == 18) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && ((toPoints (getJustBeValue dealerUpCard) >= 7) && (toPoints (getJustBeValue dealerUpCard) <= 8)) = True
+
+    -- -- If current hand is a soft 19,20, take the stand action (i.e. return True)
+    | ((handCalc myHand == 19) ||(handCalc myHand == 20)) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) = True
 
     -- -- If current hand is a soft 19 and the dealer's up card is not 6, take the stand action (i.e. return True)
     -- | (handCalc myHand == 19) && ((getRank (head myHand) == Ace)||(getRank (head (tail myHand)) == Ace)) && (toPoints (getJustBeValue dealerUpCard) /= 6) = True
@@ -167,10 +196,10 @@ standOrNot dealerUpCard myHand
     -- | ((toPoints (getJustBeValue dealerUpCard) == 4) || (toPoints (getJustBeValue dealerUpCard) == 5) || (toPoints (getJustBeValue dealerUpCard) == 6)) && (handCalc myHand >= 12) = True
 
     -- -- If current hand value >= 13 and dealer's up card = 3, take the stand action (i.e. return True)
-    -- | (toPoints (getJustBeValue dealerUpCard) == 3) && (handCalc myHand >= 13) = True 
+    | (toPoints (getJustBeValue dealerUpCard) == 3) && (handCalc myHand >= 13) = True 
 
     -- -- If current hand value >= 13 and dealer's up card = 2, take the stand action (i.e. return True)
-    -- | (toPoints (getJustBeValue dealerUpCard) == 2) && (handCalc myHand >= 13) = True
+    | (toPoints (getJustBeValue dealerUpCard) == 2) && (handCalc myHand >= 13) = True
 
     -- If current hand value = 16 and dealer's up card = 2 - 6, take the stand action (i.e. return True)
     | ((toPoints (getJustBeValue dealerUpCard) >= 2) && (toPoints (getJustBeValue dealerUpCard) <= 6)) && (handCalc myHand == 16) = True
