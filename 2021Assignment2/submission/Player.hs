@@ -16,10 +16,10 @@ playCard :: PlayFunc
 playCard Nothing _ _ _ _ myHand = createSuitableBid myHand
 playCard dealerUpCard _ _ _ myMemory myHand
     -- If insuranceOrNot function returns true, then take insurance action
-    | insuranceOrNot dealerUpCard myMemory = (Insurance (maxInsure minBid ), "")
+    | insuranceOrNot dealerUpCard myMemory = (Insurance (maxInsure maxBid ), "")
     
     -- If splitOrNot function returns true, then take split action
-    | splitOrNot dealerUpCard myHand = (Split minBid, "")
+    | splitOrNot dealerUpCard myHand = (Split maxBid, "")
 
     -- If doubleDownOrNot function returns true, then take double down action
     -- | doubleDownOrNot dealerUpCard myHand = (DoubleDown 100, "")
@@ -44,7 +44,7 @@ getJustBeValue x =
 
 -- This function creates a suitable bid when its the first round of the game (bidding round)
 createSuitableBid :: Hand -> (Action , String)
-createSuitableBid _ = (Bid minBid, "FIRST TURN AFTER BIDDING")
+createSuitableBid _ = (Bid maxBid, "FIRST TURN AFTER BIDDING")
 
 -- This function is responsible for deciding whether the player should take the split action or not
 -- It will return True if the player should take the split action, and False if the player shouldn't take the split action
