@@ -245,15 +245,15 @@ import           Cards              -- Finally, the generic card type(s)
 import           TwentyOne.Types    -- Here you will find types used in the game of TwentyOne
 import           TwentyOne.Rules    -- Rules of the game
 
-import Debug.Trace
-import Data.Vector.Storable (create)
+-- import Debug.Trace
+-- import Data.Vector.Storable (create)
 
 -- You can add more imports if you need them
 
 -- | This function is called once it's your turn, and keeps getting called until your turn ends.
 playCard :: PlayFunc
 playCard Nothing _ _ _ _ myHand = createSuitableBid myHand
-playCard dealerUpCard playersPoints playersHand myId myMemory myHand
+playCard dealerUpCard _ _ _ myMemory myHand
 
     -- TRACE FOR DEBUGGING CODE
     -- | trace ("bid: pid=" ++ show myId ++ " pinfo: " ++ show playersHand ++ " hand: " ++ show myHand) False = undefined 
@@ -287,7 +287,7 @@ getMayBeValue x =
 
 -- THIS FUNCTION CREATES A SUITABLE BID WHEN ITS THE FIRST ROUND (BIDDING ROUND)
 createSuitableBid :: Hand -> (Action , String)
-createSuitableBid currentHand = (Bid maxBid, "FIRST TURN AFTER BIDDING")
+createSuitableBid _ = (Bid maxBid, "FIRST TURN AFTER BIDDING")
 
 -- THIS FUNCTION IS RESPONSIBLE FOR DECIDING WHETHER THE PLAYER SHOULD TAKE THE SPLIT ACTION OR NOT
 -- IT WILL RETURN TRUE IF THE PLAYER SHOULD SPLIT, FALSE IF HE SHOULDN'T SPLIT
