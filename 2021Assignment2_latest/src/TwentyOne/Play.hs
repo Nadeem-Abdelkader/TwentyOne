@@ -8,7 +8,6 @@ import           Control.Applicative
 import           Control.DeepSeq
 import           Control.Monad
 import           System.Timeout
-import           Data.Bits
 
 -- Base modules
 import           Cards
@@ -19,6 +18,7 @@ import           EitherIO
 -- Game modules
 import           TwentyOne.Rules
 import           TwentyOne.Types
+import           Data.Ord
 
 -- | Rounds until the game ends
 roundLimit :: Int
@@ -131,7 +131,7 @@ playBids prev stock rich = foldl f' (pure ([], stock, rich))
   where
     f' r p = do
         (t, s, gp) <- r
-        playCards Nothing gp s prev t (PlayerHand p []) 1
+        playCards Nothing gp s prev t (PlayerHand p []) 0
 
 combinePoints :: [HandPoints] -> [GamePoints] -> [Points]
 combinePoints handPoints newGP = zipWith (+) finalPoints sortedGP
@@ -231,7 +231,7 @@ playTricks (hand : otherHands) stock dealersHands prev current scores
                                                prev
                                                current
                                                hand
-                                               1
+                                               0
 
         -- Play trick for rest of the players
         playTricks otherHands stocked dealersHands prev played scored
@@ -257,13 +257,13 @@ playAction
     -> PlayNode
     -> Int
     -> EitherIO GameError (Action, String)
-playAction upCard hand scores prev current node sid' = do
+playAction upCard hand scores prev current node sid = do
     let (PlayerHand Player { _playerId = pid, playFunc } handCards) = hand
 
     -- Process information for player
     let pp         = gamePointsToPlayerPoints <$> scores
         infos      = combineWith (playToInfo . nodeValue') current prev
-        userMemory = (firstJust `on` getMemory pid sid') current prev
+        userMemory = (firstJust `on` getMemory pid sid) current prev
 
     -- Execute user function
     (choice', raw) <- timeCall (playFunc upCard pp infos pid userMemory)
@@ -277,17 +277,6 @@ playAction upCard hand scores prev current node sid' = do
 
     return (choice, updated)
 
--- | Returns (sid1, sid2)
-nextSids :: Int -> (Int, Int)
-nextSids n = (n << 1, n << 1 + 1)
-
--- | Trim trailing zeros from sid
---
--- prop>\n m -> trimSid (n << m) == n
-trimSid :: Int -> Int
-trimSid 0   = 0
-trimSid sid = sid `div` ((-sid) .&. sid)
-
 -- | Call the play function of a player, updates the stock and player's hand.
 playCards
     :: Maybe Card    -- Dealer's current up-card
@@ -300,11 +289,10 @@ playCards
     -> EitherIO GameError (Trick, Stock, [GamePoints]) -- new trick, new stock pile, new points
 playCards upCard scores stock prev current hand sid = do
     let (PlayerHand Player { _playerId = pid } handCards) = hand
-        sid' = trimSid sid  -- Remove trailing zeros, used for searching in trick
 
     -- Player's previous action in the current round
     let playerNode =
-            fromMaybe Nil $ find (hasIds pid sid' . nodeValue') current
+            fromMaybe Nil $ find (hasIds pid sid . nodeValue') current
 
     -- Player's action
     (choice, updated) <- playAction upCard
@@ -313,7 +301,7 @@ playCards upCard scores stock prev current hand sid = do
                                     prev
                                     current
                                     playerNode
-                                    sid'
+                                    sid
 
     -- Parse changes from action
     (newCards, stocked, updatedBid, newBid) <- liftIO
@@ -324,49 +312,47 @@ playCards upCard scores stock prev current hand sid = do
 
     -- Update trick with action
     let newPlay s = Play pid s updatedBid choice updated newCards
-        newCurrent = update (PlayNode (newPlay sid') playerNode) current
+        newCurrent = update (PlayNode (newPlay sid) playerNode) current
 
     -- What to do next
     let nextPlayCard s' st' ph' i' t' =
             playCards upCard s' st' prev t' (PlayerHand (owner hand) ph') i'
 
-        continuePlaying = nextPlayCard newScores stocked newCards
+        continuePlaying = nextPlayCard newScores stocked newCards sid
 
     -- Auxiliary function for pattern matching to determine recursion
     let playCards'
             :: Action
             -> HandValue
             -> EitherIO GameError (Trick, Stock, [GamePoints])
-        playCards' Hit            (Value _) = continuePlaying sid newCurrent
-        playCards' (DoubleDown _) (Value _) = continuePlaying sid newCurrent
+        playCards' Hit            (Value _) = continuePlaying newCurrent
+        playCards' (DoubleDown _) (Value _) = continuePlaying newCurrent
         playCards' (Insurance  _) _         = do
-            let (sid1, sid2) = nextSids sid
-                insNewplay   = newPlay sid2
-                insTree      = PlayNode insNewplay playerNode : newCurrent
-            continuePlaying sid1 insTree
+            let insNewplay = newPlay (sid + 1)
+                insTree    = PlayNode insNewplay playerNode : newCurrent
+            continuePlaying insTree
 
         playCards' a@(Split _) _ = do
             (cards', stocked') <- liftIO $ takeContinuous numDecks 2 stocked
 
             -- Mix cards in hand with new cards
             let [hand1, hand2] = transpose [handCards, cards']
-                (sid1 , sid2 ) = nextSids sid
 
             -- Original line
             (t', s', p') <- nextPlayCard newScores
                                          stocked'
                                          hand1
-                                         sid1
+                                         sid
                                          newCurrent
 
             -- Find memory from original line
-            let mem' = fromJust $ getMemory pid (trimSid sid1) t'
+            let mem' = fromJust $ getMemory pid sid t'
 
             -- Split line
-            let splitNewPlay = Play pid sid2 updatedBid a mem' handCards
+            let splitNewPlay = Play pid (sid + 1) updatedBid a mem' handCards
                 splitTree    = PlayNode splitNewPlay playerNode : t'
 
-            nextPlayCard p' s' hand2 sid2 splitTree
+            nextPlayCard p' s' hand2 (sid + 1) splitTree
 
         playCards' _ _ = return (newCurrent, stocked, newScores)
 

@@ -133,6 +133,7 @@ handValue cards | isCombo cards            = Combo
                 | otherwise                = Value value
     where value = handCalc cards
 
+
 -- | Calculate value of a hand
 --
 -- >>> handCalc [Card Diamond Four,Card Diamond Six]
